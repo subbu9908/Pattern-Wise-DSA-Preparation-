@@ -143,11 +143,12 @@ for num in nums:
         return True
     seen.add(num)
 return False
-
+---
 📌 Interview Explanation
 
 “Using a set gives constant-time lookup, allowing duplicate detection in one traversal.”
 🔹 Sub-Pattern 3: Index Mapping
+---
 📌 Concept
 
 Map values to their indices.
@@ -160,22 +161,24 @@ index_map = {
   11: 2,
   15: 3
 }
+---
 📌 When to Use
 
 Pair problems (e.g., Two Sum)
 
 Index-based lookups
+---
 📌 Python Template
 index_map = {}
 for i, num in enumerate(nums):
     if target - num in index_map:
         return [index_map[target - num], i]
     index_map[num] = i
-
+---
 📌 Interview Explanation
 
 “I store value-to-index mapping to find complements in constant time.”
-
+---
 🔹 Sub-Pattern 4: Prefix Sum
 📌 Concept
 
@@ -191,7 +194,7 @@ Subarray sum problems
 Range queries
 
 Count subarrays with given sum
-
+---
 📌 Python Template
 prefix_sum = 0
 count = 0
@@ -202,11 +205,11 @@ for num in nums:
     if prefix_sum - k in seen:
         count += seen[prefix_sum - k]
     seen[prefix_sum] = seen.get(prefix_sum, 0) + 1
-
+---
 📌 Interview Explanation
 
 “Prefix sums help compute subarray sums in constant time.”
-
+---
 ⚠️ Common Interview Mistakes
 
 Forgetting {0:1} in prefix sum problems
@@ -216,7 +219,7 @@ Updating hashmap before checking condition
 Using nested loops instead of hashing
 
 Ignoring edge cases (empty array, single element)
-
+---
 🚀 What’s Next
 
 Next step in this pattern:
@@ -228,22 +231,15 @@ LeetCode Practice
 Python solutions + explanations
 
 Interview-style reasoning
-
+---
 👉 Next file will start with:
 Frequency Counting – 5 LeetCode Problems
-
+---
 📌 This document is part of a structured, pattern-based DSA interview preparation approach.
 
 
 ---
 
-## ✅ Next Action
-1️⃣ Create the file  
-2️⃣ Push to GitHub  
-3️⃣ Commit message example:
-
-
-Added Array & Hashing deep mode concepts and templates
 
 
 When ready, say:
