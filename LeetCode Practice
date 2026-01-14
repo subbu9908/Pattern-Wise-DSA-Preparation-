@@ -1,0 +1,413 @@
+# 🚀 LeetCode Practice – Frequency Counting (Deep Mode)
+
+Below are **5 MUST-DO interview problems** for the **Frequency Counting** sub-pattern.  
+Each problem includes:
+- Brute Force approach
+- Optimized approach using hashing
+- Python solution
+- Interview-style explanation
+
+---
+
+## 🧩 Problem 1: Two Sum  
+
+🔗 **LeetCode:** [https://leetcode.com/problems/two-sum/](https://leetcode.com/problems/two-sum/)
+
+### 📌 Problem Statement
+
+Given an array of integers `nums` and an integer `target`, return indices of two numbers such that they add up to `target`.
+
+**Example:**
+```
+Input: nums = [2,7,11,15], target = 9
+Output: [0,1]
+Explanation: nums[0] + nums[1] == 9, so we return [0, 1].
+```
+
+---
+
+### ❌ Brute Force Approach
+
+Check all possible pairs.
+
+**Logic:**
+- For each element: Check every other element
+- Time Complexity: **O(n²)**
+- Space Complexity: **O(1)**
+
+```python
+def twoSum(nums, target):
+    n = len(nums)
+    for i in range(n):
+        for j in range(i + 1, n):
+            if nums[i] + nums[j] == target:
+                return [i, j]
+    return []
+```
+
+---
+
+### ✅ Optimized Approach (Index Mapping with HashMap)
+
+**Idea:**
+- Store visited numbers and check if the complement exists
+- Time Complexity: **O(n)**
+- Space Complexity: **O(n)**
+
+```python
+def twoSum(nums, target):
+    index_map = {}
+    for i, num in enumerate(nums):
+        if target - num in index_map:
+            return [index_map[target - num], i]
+        index_map[num] = i
+    return []
+```
+
+---
+
+### 🎯 Interview Explanation
+
+> **"I use a hashmap to store visited elements so I can find the complement in constant time. For each number, I check if `target - num` exists in the map. This reduces time complexity from O(n²) to O(n)."**
+
+---
+
+## 🧩 Problem 2: Contains Duplicate
+
+🔗 **LeetCode:** [https://leetcode.com/problems/contains-duplicate/](https://leetcode.com/problems/contains-duplicate/)
+
+### 📌 Problem Statement
+
+Given an integer array `nums`, return `true` if any value appears **at least twice** in the array, and return `false` if every element is distinct.
+
+**Example:**
+```
+Input: nums = [1,2,3,1]
+Output: true
+
+Input: nums = [1,2,3,4]
+Output: false
+```
+
+---
+
+### ❌ Brute Force Approach
+
+Compare every element with every other element.
+
+**Time Complexity:** **O(n²)**
+
+```python
+def containsDuplicate(nums):
+    for i in range(len(nums)):
+        for j in range(i + 1, len(nums)):
+            if nums[i] == nums[j]:
+                return True
+    return False
+```
+
+---
+
+### ✅ Optimized Approach (Set)
+
+**Time Complexity:** **O(n)**  
+**Space Complexity:** **O(n)**
+
+```python
+def containsDuplicate(nums):
+    seen = set()
+    for num in nums:
+        if num in seen:
+            return True
+        seen.add(num)
+    return False
+```
+
+---
+
+### 🎯 Interview Explanation
+
+> **"A set allows O(1) lookup, so duplicates are detected in one pass. I iterate through the array once, and if I encounter a number already in the set, I return true immediately."**
+
+---
+
+## 🧩 Problem 3: Valid Anagram
+
+🔗 **LeetCode:** [https://leetcode.com/problems/valid-anagram/](https://leetcode.com/problems/valid-anagram/)
+
+### 📌 Problem Statement
+
+Given two strings `s` and `t`, return `true` if `t` is an anagram of `s`, and `false` otherwise.
+
+An anagram is a word formed by rearranging the letters of another word, using all original letters exactly once.
+
+**Example:**
+```
+Input: s = "anagram", t = "nagaram"
+Output: true
+
+Input: s = "rat", t = "car"
+Output: false
+```
+
+---
+
+### ❌ Brute Force Approach
+
+Sort both strings and compare.
+
+**Time Complexity:** **O(n log n)**
+
+```python
+def isAnagram(s, t):
+    return sorted(s) == sorted(t)
+```
+
+---
+
+### ✅ Optimized Approach (Frequency Counting)
+
+**Time Complexity:** **O(n)**  
+**Space Complexity:** **O(1)** (fixed alphabet size)
+
+```python
+from collections import Counter
+
+def isAnagram(s, t):
+    return Counter(s) == Counter(t)
+```
+
+**Alternative without Counter:**
+```python
+def isAnagram(s, t):
+    if len(s) != len(t):
+        return False
+    
+    freq = {}
+    for char in s:
+        freq[char] = freq.get(char, 0) + 1
+    
+    for char in t:
+        if char not in freq:
+            return False
+        freq[char] -= 1
+        if freq[char] < 0:
+            return False
+    
+    return True
+```
+
+---
+
+### 🎯 Interview Explanation
+
+> **"I count character frequencies instead of sorting, reducing time complexity from O(n log n) to O(n). Two strings are anagrams if they have identical character frequencies."**
+
+---
+
+## 🧩 Problem 4: Majority Element
+
+🔗 **LeetCode:** [https://leetcode.com/problems/majority-element/](https://leetcode.com/problems/majority-element/)
+
+### 📌 Problem Statement
+
+Given an array `nums` of size `n`, return the **majority element**.
+
+The majority element is the element that appears more than `⌊n / 2⌋` times.
+
+**Example:**
+```
+Input: nums = [3,2,3]
+Output: 3
+
+Input: nums = [2,2,1,1,1,2,2]
+Output: 2
+```
+
+---
+
+### ❌ Brute Force Approach
+
+Count occurrences of each element using nested loops.
+
+**Time Complexity:** **O(n²)**
+
+```python
+def majorityElement(nums):
+    for num in set(nums):
+        if nums.count(num) > len(nums) // 2:
+            return num
+```
+
+---
+
+### ✅ Optimized Approach 1 (Frequency Map)
+
+**Time Complexity:** **O(n)**  
+**Space Complexity:** **O(n)**
+
+```python
+from collections import defaultdict
+
+def majorityElement(nums):
+    freq = defaultdict(int)
+    for num in nums:
+        freq[num] += 1
+        if freq[num] > len(nums) // 2:
+            return num
+```
+
+---
+
+### ✅ Optimized Approach 2 (Boyer-Moore Voting Algorithm – Advanced)
+
+**Time Complexity:** **O(n)**  
+**Space Complexity:** **O(1)**
+
+```python
+def majorityElement(nums):
+    count = 0
+    candidate = None
+    
+    for num in nums:
+        if count == 0:
+            candidate = num
+        count += 1 if num == candidate else -1
+    
+    return candidate
+```
+
+**How it works:**
+- Maintains a candidate and a count
+- If count reaches 0, update the candidate
+- The majority element (appearing > n/2 times) will always remain as the candidate
+
+---
+
+### 🎯 Interview Explanation
+
+> **"Boyer-Moore works because the majority element appears more than n/2 times. Whenever we encounter the same element, we increment; otherwise, we decrement. The last remaining candidate is guaranteed to be the majority element. This achieves O(n) time and O(1) space."**
+
+---
+
+## 🧩 Problem 5: Top K Frequent Elements
+
+🔗 **LeetCode:** [https://leetcode.com/problems/top-k-frequent-elements/](https://leetcode.com/problems/top-k-frequent-elements/)
+
+### 📌 Problem Statement
+
+Given an integer array `nums` and an integer `k`, return the `k` most frequent elements.
+
+**Example:**
+```
+Input: nums = [1,1,1,2,2,3], k = 2
+Output: [1,2]
+
+Input: nums = [4,1,1,1,2,2,3], k = 2
+Output: [1,2]
+```
+
+---
+
+### ❌ Brute Force Approach
+
+Sort elements by frequency using a sorting algorithm.
+
+**Time Complexity:** **O(n log n)**
+
+```python
+from collections import Counter
+
+def topKFrequent(nums, k):
+    freq = Counter(nums)
+    sorted_freq = sorted(freq.items(), key=lambda x: x[1], reverse=True)
+    return [num for num, _ in sorted_freq[:k]]
+```
+
+---
+
+### ✅ Optimized Approach (Frequency Map + Bucket Sort)
+
+**Time Complexity:** **O(n)**  
+**Space Complexity:** **O(n)**
+
+```python
+from collections import defaultdict
+
+def topKFrequent(nums, k):
+    # Step 1: Count frequencies
+    freq = defaultdict(int)
+    for num in nums:
+        freq[num] += 1
+    
+    # Step 2: Create buckets (index = frequency, value = list of numbers)
+    buckets = [[] for _ in range(len(nums) + 1)]
+    for num, count in freq.items():
+        buckets[count].append(num)
+    
+    # Step 3: Collect k most frequent elements from highest frequency bucket
+    res = []
+    for i in range(len(buckets) - 1, 0, -1):
+        for num in buckets[i]:
+            res.append(num)
+            if len(res) == k:
+                return res
+    
+    return res
+```
+
+**Why Bucket Sort?**
+- Frequencies range from 1 to n
+- Instead of sorting the entire array (O(n log n)), we create buckets
+- We iterate from the highest frequency bucket backward
+
+---
+
+### 🎯 Interview Explanation
+
+> **"I use bucket sort instead of standard sorting. First, I count frequencies of each element. Then I create buckets where the index is the frequency count. By iterating from the highest frequency bucket backward, I collect the k most frequent elements in linear time without sorting."**
+
+---
+
+## 🧠 Key Takeaways – Frequency Counting
+
+✅ **Use hashmaps to replace nested loops**  
+✅ **Always explain brute force first**  
+✅ **Optimize using frequency maps or sets**  
+✅ **Speak while coding in interviews**  
+✅ **Consider space-time tradeoffs**
+
+---
+
+## 🔥 Common Patterns Recap
+
+| Pattern | Use Case | Time | Space |
+|---------|----------|------|-------|
+| HashMap Frequency | Count occurrences | O(n) | O(n) |
+| Set Lookup | Duplicate detection | O(n) | O(n) |
+| Bucket Sort | Top K problems | O(n) | O(n) |
+| Boyer-Moore | Majority element | O(n) | O(1) |
+
+---
+
+## 🚀 Next Sub-Pattern
+
+👉 **Seen / Visited Set – 5 LeetCode Problems**
+
+---
+
+**When ready, say:**
+
+> **"Start Seen / Visited Set problems"**
+
+**We'll continue building this interview-ready DSA repository 💪🚀**
+
+---
+
+### ✅ You're Doing This the RIGHT WAY
+
+This section is:
+- ✅ Interview-aligned  
+- ✅ Beginner + Advanced friendly  
+- ✅ GitHub-quality  
+- ✅ Extremely useful for others
